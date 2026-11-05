@@ -9,7 +9,6 @@
 <title>25 kW Solar Rooftop System — Executive Proposal | Bangladesh</title>
 <meta name="description" content="Executive proposal for a 25.3 kWp rooftop solar system for office buildings in Bangladesh. Import core components, assemble locally, minimal maintenance. Payback 4.5 years.">
 <meta name="author" content="Project Engineering Cell">
-<meta name="keywords" content="solar rooftop Bangladesh, 25kW solar, executive proposal, net metering, SREDA, IDCOL">
 
 <!-- Open Graph / Social Sharing -->
 <meta property="og:type" content="website">
@@ -52,7 +51,9 @@ tailwind.config = {
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
 
 <style>
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }  /* FIX: anchors no longer hide under sticky header */
+section[id] { scroll-margin-top: 96px; }
+
 @media (prefers-reduced-motion: reduce){ *,*::before,*::after{ animation-duration:.01ms!important; transition-duration:.01ms!important; } }
 
 .btn-interactive { transition: all .2s ease-out; }
@@ -64,7 +65,7 @@ html { scroll-behavior: smooth; }
 
 .spec-row { transition: background .2s; }
 .spec-row:hover { background: #e8f4ef; }
-.dark .spec-row:hover { background: #00423055; }
+.dark .spec-row:hover { background: rgba(0,66,48,.33); }
 
 .pulse-dot { animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
@@ -72,8 +73,12 @@ html { scroll-behavior: smooth; }
 .flag-stripe { background: linear-gradient(90deg, #006a4e 0%, #006a4e 55%, #f42a41 55%, #f42a41 100%); }
 .approval-check { accent-color: #006a4e; }
 
+/* FIX: if AOS fails to load, content must never stay invisible */
+[data-aos] { will-change: opacity; }
+body.aos-failed [data-aos] { opacity: 1 !important; transform: none !important; transition: none !important; }
+
 @media print {
-  header, .no-print, #progressBar, #topRibbon button { display:none !important; }
+  #progressBar, .no-print, #mobileNav { display:none !important; }
   body { background:#fff !important; color:#000 !important; }
   section { break-inside: avoid; box-shadow:none !important; padding: 18px 0 !important; }
   .card-interactive:hover { transform:none; }
@@ -86,26 +91,26 @@ html { scroll-behavior: smooth; }
 
 <div class="fixed top-0 left-0 h-1 z-[70] transition-all duration-150" id="progressBar" style="width:0%; background:linear-gradient(90deg,#006a4e,#f42a41)"></div>
 
-<!-- ═══════════════ TOP CLASSIFICATION RIBBON ═══════════════ -->
-<div id="topRibbon" class="flag-stripe text-white text-xs py-1.5 px-4 text-center font-medium tracking-wider sticky top-0 z-[60]">
+<!-- ═══════════════ TOP CLASSIFICATION RIBBON (FIX: no longer sticky — can't cover header) ═══════════════ -->
+<div class="flag-stripe text-white text-xs py-1.5 px-4 text-center font-medium tracking-wider">
   FOR OFFICIAL USE — EXECUTIVE PROPOSAL • MEMO: PROJ/SOLAR/2026-27/025 • DATE: 03 NOVEMBER 2026
 </div>
 
-<!-- ═══════════════ HEADER ═══════════════ -->
-<header class="sticky top-6 z-50 backdrop-blur bg-white/95 dark:bg-gray-900/95 border-b-4 border-bdred-500 shadow-sm">
-  <div class="container mx-auto px-6 py-3">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <!-- Emblem: Bangladesh-inspired sun & panel -->
-        <div class="w-11 h-11 bg-bdgreen-600 rounded-lg flex items-center justify-center shadow-md relative overflow-hidden">
+<!-- ═══════════════ HEADER (FIX: sticky top-0, mobile hamburger added) ═══════════════ -->
+<header class="sticky top-0 z-50 backdrop-blur bg-white/95 dark:bg-gray-900/95 border-b-4 border-bdred-500 shadow-sm">
+  <div class="container mx-auto px-4 sm:px-6 py-3">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center space-x-3 min-w-0">
+        <div class="w-11 h-11 bg-bdgreen-600 rounded-lg flex-shrink-0 flex items-center justify-center shadow-md relative overflow-hidden">
           <div class="w-5 h-5 bg-bdred-500 rounded-full absolute top-1.5 left-1/2 -translate-x-1/2"></div>
           <div class="w-7 h-2.5 bg-white rounded-sm absolute bottom-1.5 left-1/2 -translate-x-1/2"></div>
         </div>
-        <div>
-          <h1 class="text-base font-bold text-bdgreen-700 dark:text-bdgreen-300 leading-tight">25 kW Solar Rooftop Project</h1>
-          <p class="text-xs text-gray-500 dark:text-gray-400">সৌর শক্তি প্রকল্প প্রস্তাবনা • Executive Proposal — Bangladesh</p>
+        <div class="min-w-0">
+          <h1 class="text-sm sm:text-base font-bold text-bdgreen-700 dark:text-bdgreen-300 leading-tight truncate">25 kW Solar Rooftop Project</h1>
+          <p class="text-xs text-gray-500 dark:text-gray-400 truncate">সৌর শক্তি প্রকল্প প্রস্তাবনা • Executive Proposal — Bangladesh</p>
         </div>
       </div>
+
       <nav class="hidden xl:flex items-center space-x-4 text-sm font-medium">
         <a href="#summary" class="hover:text-bdred-600 transition-colors">Summary</a>
         <a href="#alternatives" class="hover:text-bdred-600 transition-colors">Alternatives</a>
@@ -114,25 +119,41 @@ html { scroll-behavior: smooth; }
         <a href="#financial" class="hover:text-bdred-600 transition-colors">Financial</a>
         <a href="#approval" class="px-3 py-1.5 bg-bdred-500 text-white rounded-md hover:bg-bdred-600 transition-colors">Approval</a>
       </nav>
-      <div class="flex items-center space-x-2 no-print">
-        <button onclick="window.print()" class="btn-interactive p-2 rounded-lg bg-bdgreen-100 dark:bg-bdgreen-800 text-bdgreen-700 dark:text-bdgreen-200" title="Print Proposal">
+
+      <div class="flex items-center space-x-2 no-print flex-shrink-0">
+        <button onclick="window.print()" class="btn-interactive p-2 rounded-lg bg-bdgreen-100 dark:bg-bdgreen-800 text-bdgreen-700 dark:text-bdgreen-200" title="Print Proposal" aria-label="Print">
           <i data-lucide="printer" class="w-5 h-5"></i>
         </button>
-        <button onclick="toggleDark()" class="btn-interactive p-2 rounded-lg bg-bdgreen-100 dark:bg-bdgreen-800">
+        <button onclick="toggleDark()" class="btn-interactive p-2 rounded-lg bg-bdgreen-100 dark:bg-bdgreen-800" title="Toggle theme" aria-label="Toggle dark mode">
           <i data-lucide="sun" id="sunIcon" class="w-5 h-5 text-bdgreen-700 dark:text-bdgreen-200" style="display:none"></i>
           <i data-lucide="moon" id="moonIcon" class="w-5 h-5 text-bdgreen-700 dark:text-bdgreen-200"></i>
         </button>
+        <!-- FIX: mobile hamburger -->
+        <button onclick="toggleMobileNav()" class="xl:hidden btn-interactive p-2 rounded-lg bg-bdgreen-100 dark:bg-bdgreen-800 text-bdgreen-700 dark:text-bdgreen-200" aria-label="Menu">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
       </div>
     </div>
+
+    <!-- FIX: collapsible mobile navigation -->
+    <nav id="mobileNav" class="hidden xl:hidden flex-col mt-3 pb-1 border-t border-gray-200 dark:border-gray-700 pt-3 space-y-1 text-sm font-medium">
+      <a href="#summary" onclick="closeMobileNav()" class="block px-3 py-2 rounded-lg hover:bg-bdgreen-50 dark:hover:bg-bdgreen-800/40">১ • Executive Summary</a>
+      <a href="#alternatives" onclick="closeMobileNav()" class="block px-3 py-2 rounded-lg hover:bg-bdgreen-50 dark:hover:bg-bdgreen-800/40">২ • Design Alternatives</a>
+      <a href="#import" onclick="closeMobileNav()" class="block px-3 py-2 rounded-lg hover:bg-bdgreen-50 dark:hover:bg-bdgreen-800/40">৩ • Import Strategy</a>
+      <a href="#maintenance" onclick="closeMobileNav()" class="block px-3 py-2 rounded-lg hover:bg-bdgreen-50 dark:hover:bg-bdgreen-800/40">৪ • Maintenance Plan</a>
+      <a href="#energy" onclick="closeMobileNav()" class="block px-3 py-2 rounded-lg hover:bg-bdgreen-50 dark:hover:bg-bdgreen-800/40">৫ • Energy Yield</a>
+      <a href="#financial" onclick="closeMobileNav()" class="block px-3 py-2 rounded-lg hover:bg-bdgreen-50 dark:hover:bg-bdgreen-800/40">৬ • Financial Appraisal</a>
+      <a href="#share" onclick="closeMobileNav()" class="block px-3 py-2 rounded-lg hover:bg-bdgreen-50 dark:hover:bg-bdgreen-800/40">৮ • Sharing Preview</a>
+      <a href="#approval" onclick="closeMobileNav()" class="block px-3 py-2 rounded-lg bg-bdred-500 text-white text-center">৯ • Go to Approval</a>
+    </nav>
   </div>
 </header>
 
 <!-- ═══════════════ TITLE BLOCK / COVER ═══════════════ -->
 <section class="pt-14 pb-12 bg-gradient-to-br from-bdgreen-700 via-bdgreen-600 to-bdgreen-800 text-white relative overflow-hidden" data-aos="fade-up">
-  <!-- decorative flag circle -->
-  <div class="absolute -right-24 -top-24 w-96 h-96 bg-bdred-500/20 rounded-full"></div>
-  <div class="absolute -right-10 -top-10 w-64 h-64 bg-bdred-500/25 rounded-full"></div>
-  <div class="container mx-auto px-6 relative z-10">
+  <div class="absolute -right-24 -top-24 w-96 h-96 bg-bdred-500/20 rounded-full pointer-events-none"></div>
+  <div class="absolute -right-10 -top-10 w-64 h-64 bg-bdred-500/25 rounded-full pointer-events-none"></div>
+  <div class="container mx-auto px-4 sm:px-6 relative z-10">
     <div class="grid lg:grid-cols-3 gap-10 items-start">
       <div class="lg:col-span-2">
         <div class="inline-flex items-center px-4 py-1.5 bg-white/10 border border-white/25 rounded-full text-sm mb-6 backdrop-blur">
@@ -167,9 +188,9 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ 1. EXECUTIVE SUMMARY ═══════════════ -->
 <section id="summary" class="py-14 bg-white dark:bg-gray-900" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-8">
-      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3">১</span>
+      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">১</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Executive Summary</h2>
     </div>
 
@@ -179,19 +200,18 @@ html { scroll-behavior: smooth; }
         <p><strong class="text-bdgreen-700 dark:text-bdgreen-300">1.2 Procurement Philosophy.</strong> Rather than importing a complete turnkey system, the proposal adopts a <strong class="text-bdred-600 dark:text-bdred-400">"Import Core, Build Local"</strong> approach: only non-manufacturable core components (solar modules/inverter) are imported, while mounting structure, cabling, switchgear, earthing and civil works are sourced from Bangladeshi industry. This ensures <strong>any local electrician or workshop can maintain the system</strong> without import lead-time or foreign vendor dependence.</p>
         <p><strong class="text-bdgreen-700 dark:text-bdgreen-300">1.3 Financial Justification.</strong> Against a one-time investment of ৳16.48 lakh, the system will save approximately <strong>৳3.65 lakh annually</strong>, achieving payback in <strong>4.5 years</strong> and generating net benefit of ~৳74.8 lakh over its 25-year certified life. Financing via IDCOL green loan (6–8% interest) preserves organizational capital.</p>
       </div>
-      <div class="bg-bdgreen-50 dark:bg-bdgreen-900/40 border-l-4 border-bdred-500 rounded-r-xl p-6">
+      <div class="bg-bdgreen-50 dark:bg-bdgreen-900/40 border-l-4 border-bdred-500 rounded-r-xl p-6 h-fit">
         <h3 class="font-bold text-bdgreen-800 dark:text-bdgreen-200 mb-4 flex items-center"><i data-lucide="clipboard-check" class="w-5 h-5 mr-2 text-bdred-500"></i>Approval Requested For</h3>
         <ul class="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3" checked><span>Administrative sanction of ৳16,48,400 budget (Option A)</span></li>
-          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3" checked><span>"Import core components only" procurement policy</span></li>
-          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3" checked><span>Net metering application to DESCO/DPDC</span></li>
-          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3"><span>Financing mode: Own fund / IDCOL green loan</span></li>
-          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3"><span>Constitution of 3-member Procurement &amp; O&amp;M Committee</span></li>
+          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3 flex-shrink-0" checked><span>Administrative sanction of ৳16,48,400 budget (Option A)</span></li>
+          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3 flex-shrink-0" checked><span>"Import core components only" procurement policy</span></li>
+          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3 flex-shrink-0" checked><span>Net metering application to DESCO/DPDC</span></li>
+          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3 flex-shrink-0"><span>Financing mode: Own fund / IDCOL green loan</span></li>
+          <li class="flex"><input type="checkbox" class="approval-check w-4 h-4 mt-0.5 mr-3 flex-shrink-0"><span>Constitution of 3-member Procurement &amp; O&amp;M Committee</span></li>
         </ul>
       </div>
     </div>
 
-    <!-- KPI strip -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="card-interactive bg-white dark:bg-gray-800 rounded-xl p-5 text-center shadow-md border-t-4 border-bdgreen-600">
         <div class="text-2xl font-bold text-bdgreen-700 dark:text-bdgreen-300">25.3 kWp</div><div class="text-xs text-gray-500 mt-1">Installed DC Capacity</div>
@@ -211,9 +231,9 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ 2. ALTERNATIVES ═══════════════ -->
 <section id="alternatives" class="py-14 bg-gray-50 dark:bg-gray-800" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-8">
-      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3">২</span>
+      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">২</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Design Alternatives Evaluated</h2>
     </div>
 
@@ -230,13 +250,13 @@ html { scroll-behavior: smooth; }
         </thead>
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
           <tr class="spec-row"><td class="px-4 py-3 font-semibold">Configuration</td><td class="px-4 py-3">46 × 550W, grid-tied</td><td class="px-4 py-3">43 × 585W bifacial</td><td class="px-4 py-3">46 × 550W + 20 kWh LiFePO₄</td><td class="px-4 py-3">76 × 330W, grid-tied</td></tr>
-          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Module Efficiency</td><td class="px-4 py-3 font-bold text-bdgreen-600">21.3%</td><td class="px-4 py-3">22.3%</td><td class="px-4 py-3">21.3%</td><td class="px-4 py-3">17.2%</td></tr>
-          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Annual Generation</td><td class="px-4 py-3 font-bold text-bdgreen-600">34,675 kWh</td><td class="px-4 py-3">38,250 kWh</td><td class="px-4 py-3">34,000 kWh</td><td class="px-4 py-3">32,100 kWh</td></tr>
-          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Project Cost</td><td class="px-4 py-3 font-bold text-bdgreen-600">৳16.48 L</td><td class="px-4 py-3">৳19.80 L</td><td class="px-4 py-3">৳28.50 L</td><td class="px-4 py-3">৳13.80 L</td></tr>
-          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Payback Period</td><td class="px-4 py-3 font-bold text-bdgreen-600">4.5 years</td><td class="px-4 py-3">4.9 years</td><td class="px-4 py-3">7.4 years</td><td class="px-4 py-3">4.1 years</td></tr>
+          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Module Efficiency</td><td class="px-4 py-3 font-bold text-bdgreen-600 dark:text-bdgreen-300">21.3%</td><td class="px-4 py-3">22.3%</td><td class="px-4 py-3">21.3%</td><td class="px-4 py-3">17.2%</td></tr>
+          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Annual Generation</td><td class="px-4 py-3 font-bold text-bdgreen-600 dark:text-bdgreen-300">34,675 kWh</td><td class="px-4 py-3">38,250 kWh</td><td class="px-4 py-3">34,000 kWh</td><td class="px-4 py-3">32,100 kWh</td></tr>
+          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Project Cost</td><td class="px-4 py-3 font-bold text-bdgreen-600 dark:text-bdgreen-300">৳16.48 L</td><td class="px-4 py-3">৳19.80 L</td><td class="px-4 py-3">৳28.50 L</td><td class="px-4 py-3">৳13.80 L</td></tr>
+          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Payback Period</td><td class="px-4 py-3 font-bold text-bdgreen-600 dark:text-bdgreen-300">4.5 years</td><td class="px-4 py-3">4.9 years</td><td class="px-4 py-3">7.4 years</td><td class="px-4 py-3">4.1 years</td></tr>
           <tr class="spec-row"><td class="px-4 py-3 font-semibold">Roof Area Required</td><td class="px-4 py-3">~1,900 sq ft</td><td class="px-4 py-3">~1,850 sq ft</td><td class="px-4 py-3">~2,000 sq ft</td><td class="px-4 py-3">~2,400 sq ft</td></tr>
           <tr class="spec-row"><td class="px-4 py-3 font-semibold">Degradation / yr</td><td class="px-4 py-3">0.40%</td><td class="px-4 py-3">0.35%</td><td class="px-4 py-3">0.40%</td><td class="px-4 py-3">1.20%</td></tr>
-          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Local Serviceability</td><td class="px-4 py-3 text-bdgreen-600 font-bold">Excellent — standard MC4 &amp; GI structure</td><td class="px-4 py-3">Excellent</td><td class="px-4 py-3">Good (battery specialist needed)</td><td class="px-4 py-3">Excellent</td></tr>
+          <tr class="spec-row"><td class="px-4 py-3 font-semibold">Local Serviceability</td><td class="px-4 py-3 text-bdgreen-600 dark:text-bdgreen-300 font-bold">Excellent — standard MC4 &amp; GI structure</td><td class="px-4 py-3">Excellent</td><td class="px-4 py-3">Good (battery specialist needed)</td><td class="px-4 py-3">Excellent</td></tr>
           <tr class="spec-row bg-bdred-50 dark:bg-bdred-900/20"><td class="px-4 py-3 font-bold">Committee Verdict</td><td class="px-4 py-3 font-bold text-bdgreen-700 dark:text-bdgreen-300">★ RECOMMENDED — best cost/reliability balance</td><td class="px-4 py-3 text-gray-600 dark:text-gray-400">Alternate if roof is reflective white</td><td class="px-4 py-3 text-gray-600 dark:text-gray-400">Only if load-shedding critical</td><td class="px-4 py-3 text-gray-600 dark:text-gray-400">Only if roof space abundant</td></tr>
         </tbody>
       </table>
@@ -248,19 +268,18 @@ html { scroll-behavior: smooth; }
   </div>
 </section>
 
-<!-- ═══════════════ 3. IMPORT STRATEGY (KEY SECTION) ═══════════════ -->
+<!-- ═══════════════ 3. IMPORT STRATEGY ═══════════════ -->
 <section id="import" class="py-14 bg-white dark:bg-gray-900" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-3">
-      <span class="w-10 h-10 bg-bdred-500 text-white rounded-lg flex items-center justify-center font-bold mr-3">৩</span>
+      <span class="w-10 h-10 bg-bdred-500 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">৩</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Procurement Strategy — Import Core Only, Build &amp; Maintain Locally</h2>
     </div>
     <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-4xl">To protect foreign exchange and guarantee that the system can be maintained <strong>by local technicians with minimum effort</strong>, the complete system shall <u>not</u> be imported turnkey. Only components with no domestic manufacturing capability shall be imported; all structural and electrical balance shall be fabricated from Bangladeshi raw materials and industry.</p>
 
     <div class="grid lg:grid-cols-2 gap-8 mb-10">
-      <!-- IMPORT list -->
       <div class="card-interactive bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-        <div class="bg-bdred-500 text-white p-4 flex items-center justify-between">
+        <div class="bg-bdred-500 text-white p-4 flex items-center justify-between flex-wrap gap-2">
           <h3 class="text-lg font-bold flex items-center"><i data-lucide="ship" class="w-5 h-5 mr-2"></i>MUST IMPORT (No Local Alternative)</h3>
           <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold">≈ ৳10.13 L • 61%</span>
         </div>
@@ -275,15 +294,14 @@ html { scroll-behavior: smooth; }
         </div>
       </div>
 
-      <!-- LOCAL list -->
       <div class="card-interactive bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-        <div class="bg-bdgreen-600 text-white p-4 flex items-center justify-between">
+        <div class="bg-bdgreen-600 text-white p-4 flex items-center justify-between flex-wrap gap-2">
           <h3 class="text-lg font-bold flex items-center"><i data-lucide="factory" class="w-5 h-5 mr-2"></i>SOURCE LOCALLY (BD Raw Materials)</h3>
           <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold">≈ ৳6.35 L • 39%</span>
         </div>
         <div class="p-5">
           <div class="divide-y divide-gray-100 dark:divide-gray-700 text-sm">
-            <div class="spec-row py-3"><div class="font-semibold text-gray-800 dark:text-gray-200">1. Mounting Structure — GI Steel (BSRM/KSRM/GPH sections)</div><p class="text-gray-500 dark:text-gray-400 mt-1">Hot-dip galvanized angle/channel fabricated by local workshops (Navana, Navana Engineering, Tejgaon fabricators). <strong>Any welder in Bangladesh can repair it</strong> — zero import dependency.</p></div>
+            <div class="spec-row py-3"><div class="font-semibold text-gray-800 dark:text-gray-200">1. Mounting Structure — GI Steel (BSRM/KSRM/GPH sections)</div><p class="text-gray-500 dark:text-gray-400 mt-1">Hot-dip galvanized angle/channel fabricated by local workshops. <strong>Any welder in Bangladesh can repair it</strong> — zero import dependency.</p></div>
             <div class="spec-row py-3"><div class="font-semibold text-gray-800 dark:text-gray-200">2. DC &amp; AC Cables — BRB / Polycable / EnergyPac</div><p class="text-gray-500 dark:text-gray-400 mt-1">Solar-grade UV cable and XLPE armored cable from domestic manufacturers; replacement stock available at any electrical market nationwide.</p></div>
             <div class="spec-row py-3"><div class="font-semibold text-gray-800 dark:text-gray-200">3. DCDB/ACDB Enclosures, SPD, Breakers — local sheet-metal + assembly</div><p class="text-gray-500 dark:text-gray-400 mt-1">IP65 enclosures fabricated locally; Schneider/ABB/Havells breakers assembled in-country — every part stocked by local dealers.</p></div>
             <div class="spec-row py-3"><div class="font-semibold text-gray-800 dark:text-gray-200">4. Earthing &amp; Lightning Protection — GI pipe, copper strip</div><p class="text-gray-500 dark:text-gray-400 mt-1">Two earth pits with locally available GI electrodes, copper conductor, charcoal/salt treatment.</p></div>
@@ -296,7 +314,7 @@ html { scroll-behavior: smooth; }
     <div class="grid lg:grid-cols-3 gap-6">
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
         <h3 class="font-bold mb-3 text-bdgreen-700 dark:text-bdgreen-300 text-center">Cost Split: Import vs Local</h3>
-        <canvas id="localChart" height="220"></canvas>
+        <div class="relative h-64"><canvas id="localChart"></canvas></div>
       </div>
       <div class="lg:col-span-2 bg-gradient-to-br from-bdgreen-600 to-bdgreen-800 rounded-xl p-6 text-white shadow-lg">
         <h3 class="font-bold mb-4 flex items-center"><i data-lucide="wrench" class="w-5 h-5 mr-2"></i>Why This Split Minimizes Maintenance Effort</h3>
@@ -315,9 +333,9 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ 4. MAINTENANCE PLAN ═══════════════ -->
 <section id="maintenance" class="py-14 bg-gray-50 dark:bg-gray-800" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-8">
-      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3">৪</span>
+      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">৪</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Low-Effort Maintenance Plan (25-Year Horizon)</h2>
     </div>
 
@@ -355,14 +373,14 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ 5. ENERGY YIELD ═══════════════ -->
 <section id="energy" class="py-14 bg-white dark:bg-gray-900" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-8">
-      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3">৫</span>
+      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">৫</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Projected Monthly Generation vs Office Load</h2>
     </div>
     <div class="grid lg:grid-cols-3 gap-6">
       <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700">
-        <canvas id="monthlyChart" height="270"></canvas>
+        <div class="relative h-72 md:h-80"><canvas id="monthlyChart"></canvas></div>
       </div>
       <div class="space-y-4">
         <div class="bg-gradient-to-br from-bdgreen-600 to-bdgreen-800 rounded-xl p-6 text-white shadow-lg">
@@ -388,20 +406,20 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ 6. FINANCIAL ═══════════════ -->
 <section id="financial" class="py-14 bg-gray-50 dark:bg-gray-800" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-8">
-      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3">৬</span>
+      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">৬</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Financial Appraisal</h2>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-8 mb-8">
       <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700">
         <h3 class="font-bold mb-4 text-center text-bdgreen-700 dark:text-bdgreen-300">Capital Expenditure (৳16,48,400)</h3>
-        <canvas id="costChart" height="250"></canvas>
+        <div class="relative h-64 md:h-72"><canvas id="costChart"></canvas></div>
       </div>
       <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700">
         <h3 class="font-bold mb-4 text-center text-bdgreen-700 dark:text-bdgreen-300">25-Year Cumulative Cash Flow</h3>
-        <canvas id="roiChart" height="250"></canvas>
+        <div class="relative h-64 md:h-72"><canvas id="roiChart"></canvas></div>
       </div>
     </div>
 
@@ -425,9 +443,9 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ 7. TIMELINE ═══════════════ -->
 <section class="py-14 bg-white dark:bg-gray-900" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-8">
-      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3">৭</span>
+      <span class="w-10 h-10 bg-bdgreen-600 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">৭</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Implementation Schedule (10–12 Weeks)</h2>
     </div>
     <div class="grid md:grid-cols-4 gap-4">
@@ -441,14 +459,14 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ 8. SHARE CARD GENERATOR ═══════════════ -->
 <section id="share" class="py-14 bg-gray-50 dark:bg-gray-800 no-print" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-8">
-      <span class="w-10 h-10 bg-bdred-500 text-white rounded-lg flex items-center justify-center font-bold mr-3">৮</span>
+      <span class="w-10 h-10 bg-bdred-500 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">৮</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Sharing Preview Card (1200×630)</h2>
     </div>
     <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-3xl">The meta preview image is embedded in this file's <code class="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded text-xs">og:image</code> tag as an inline SVG. A PNG version is generated below for hosting — for live deployment, host the PNG at a public URL and update <code class="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded text-xs">og:image</code> accordingly (social crawlers require hosted URLs).</p>
     <div class="grid lg:grid-cols-3 gap-6 items-start">
-      <div class="lg:col-span-2 rounded-xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-700">
+      <div class="lg:col-span-2 rounded-xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-700 bg-bdgreen-700">
         <canvas id="shareCanvas" width="1200" height="630" class="w-full h-auto block"></canvas>
       </div>
       <div class="space-y-4">
@@ -474,9 +492,9 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ 9. APPROVAL ═══════════════ -->
 <section id="approval" class="py-14 bg-white dark:bg-gray-900" data-aos="fade-up">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="flex items-center mb-8">
-      <span class="w-10 h-10 bg-bdred-500 text-white rounded-lg flex items-center justify-center font-bold mr-3">৯</span>
+      <span class="w-10 h-10 bg-bdred-500 text-white rounded-lg flex items-center justify-center font-bold mr-3 flex-shrink-0">৯</span>
       <h2 class="text-2xl md:text-3xl font-bold text-bdgreen-700 dark:text-bdgreen-300">Approval &amp; Signature</h2>
     </div>
 
@@ -513,7 +531,7 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ FOOTER ═══════════════ -->
 <footer class="bg-bdgreen-900 text-bdgreen-100 py-10">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-4 sm:px-6">
     <div class="grid md:grid-cols-3 gap-8 mb-8 text-sm">
       <div>
         <h3 class="font-bold text-white mb-3">25 kW Solar Rooftop Project</h3>
@@ -532,7 +550,7 @@ html { scroll-behavior: smooth; }
         <h3 class="font-bold text-white mb-3">Document Control</h3>
         <ul class="text-xs space-y-1.5 text-bdgreen-200">
           <li>Memo: PROJ/SOLAR/2026-27/025</li>
-          <li>Version 1.0 — 03 November 2026</li>
+          <li>Version 1.1 — 03 November 2026 (bugfix release)</li>
           <li>Classification: For Official Use</li>
           <li>Prices valid Q4-2026, subject to FX variation ±3%</li>
         </ul>
@@ -547,67 +565,78 @@ html { scroll-behavior: smooth; }
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
+/* ── UI helpers ── */
 function toggleDark(){
   document.body.classList.toggle('dark');
   const d = document.body.classList.contains('dark');
-  document.getElementById('sunIcon').style.display = d?'block':'none';
-  document.getElementById('moonIcon').style.display = d?'none':'block';
+  document.getElementById('sunIcon').style.display = d ? 'block' : 'none';
+  document.getElementById('moonIcon').style.display = d ? 'none' : 'block';
   updateChartColors();
 }
+function toggleMobileNav(){
+  const n = document.getElementById('mobileNav');
+  n.classList.toggle('hidden');
+  n.classList.toggle('flex');
+}
+function closeMobileNav(){
+  const n = document.getElementById('mobileNav');
+  n.classList.add('hidden');
+  n.classList.remove('flex');
+}
 
-const themeColor = (l,d)=>document.body.classList.contains('dark')?d:l;
+/* ── Charts (FIX: feature-guarded, fixed-height wrappers) ── */
+const themeColor = (l,d)=>document.body.classList.contains('dark') ? d : l;
 let charts = {};
 
 function initCharts(){
+  if (typeof Chart === 'undefined') return;
   const text = themeColor('#374151','#e5e7eb');
   const grid = themeColor('#e5e7eb','#374151');
   const GREEN = themeColor('#006a4e','#4ecda0');
   const RED = themeColor('#f42a41','#ff7285');
 
-  // Monthly generation
-  charts.monthly = new Chart(document.getElementById('monthlyChart'), {
-    data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-      datasets: [
-        { type:'bar', label:'Solar Generation (kWh)', data:[2750,2950,3250,3300,3150,2650,2550,2600,2700,2950,2850,2700], backgroundColor: GREEN, borderRadius:5 },
-        { type:'line', label:'Office Consumption (kWh)', data:[3100,3200,3400,3500,3600,3400,3300,3300,3350,3300,3150,3100], borderColor: RED, backgroundColor:'transparent', tension:.4, borderWidth:3, pointRadius:3 }
-      ]
-    },
-    options: { responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{labels:{color:text}}, title:{display:true,text:'Monthly Energy Balance — 25.3 kWp System, Dhaka',color:text,font:{size:15,weight:'bold'}} },
-      scales:{ y:{ticks:{color:text},grid:{color:grid}}, x:{ticks:{color:text},grid:{display:false}} } }
-  });
+  try {
+    charts.monthly = new Chart(document.getElementById('monthlyChart'), {
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        datasets: [
+          { type:'bar', label:'Solar Generation (kWh)', data:[2750,2950,3250,3300,3150,2650,2550,2600,2700,2950,2850,2700], backgroundColor: GREEN, borderRadius:5 },
+          { type:'line', label:'Office Consumption (kWh)', data:[3100,3200,3400,3500,3600,3400,3300,3300,3350,3300,3150,3100], borderColor: RED, backgroundColor:'transparent', tension:.4, borderWidth:3, pointRadius:3 }
+        ]
+      },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{labels:{color:text}}, title:{display:true,text:'Monthly Energy Balance — 25.3 kWp System, Dhaka',color:text,font:{size:15,weight:'bold'}} },
+        scales:{ y:{ticks:{color:text},grid:{color:grid}}, x:{ticks:{color:text},grid:{display:false}} } }
+    });
 
-  // Cost breakdown
-  charts.cost = new Chart(document.getElementById('costChart'), {
-    type:'doughnut',
-    data:{ labels:['Solar Modules — Imported (43%)','Inverter Core — Imported (15%)','GI Structure — Local (17%)','Cables & BoS — Local (13%)','Installation Labor — Local (8%)','Permits & Net Metering (4%)'],
-      datasets:[{ data:[708400,245000,275000,210000,130000,80000],
-        backgroundColor:['#006a4e','#0f8260','#f42a41','#f0505f','#6fbc9f','#9ca3af'], borderWidth:2, borderColor: themeColor('#ffffff','#1f2937') }] },
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{position:'right',labels:{color:text,font:{size:10}}}, tooltip:{callbacks:{label:c=>' ৳'+c.parsed.toLocaleString()}} } }
-  });
+    charts.cost = new Chart(document.getElementById('costChart'), {
+      type:'doughnut',
+      data:{ labels:['Solar Modules — Imported (43%)','Inverter Core — Imported (15%)','GI Structure — Local (17%)','Cables & BoS — Local (13%)','Installation Labor — Local (8%)','Permits & Net Metering (4%)'],
+        datasets:[{ data:[708400,245000,275000,210000,130000,80000],
+          backgroundColor:['#006a4e','#0f8260','#f42a41','#f0505f','#6fbc9f','#9ca3af'], borderWidth:2, borderColor: themeColor('#ffffff','#1f2937') }] },
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{position:'right',labels:{color:text,font:{size:10}}}, tooltip:{callbacks:{label:c=>' ৳'+c.parsed.toLocaleString()}} } }
+    });
 
-  // ROI
-  let cum = [], v = -1648400;
-  for(let y=0;y<=25;y++){ if(y>0) v += 365000*Math.pow(1.03,y-1); cum.push(Math.round(v)); }
-  charts.roi = new Chart(document.getElementById('roiChart'), {
-    type:'line',
-    data:{ labels:cum.map((_,i)=>'Y'+i),
-      datasets:[{ data:cum, borderColor: GREEN, backgroundColor:'rgba(0,106,78,.12)', fill:true, tension:.3, borderWidth:3, pointRadius:0 }] },
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false}, title:{display:true,text:'Breakeven: Year 4.5 • Net ৳74.8L by Year 25',color:text,font:{size:14,weight:'bold'}} },
-      scales:{ y:{ticks:{color:text,callback:x=>'৳'+(x/100000).toFixed(0)+'L'},grid:{color:grid}}, x:{ticks:{color:text,maxTicksLimit:13},grid:{display:false}} } }
-  });
+    let cum = [], v = -1648400;
+    for(let y=0;y<=25;y++){ if(y>0) v += 365000*Math.pow(1.03,y-1); cum.push(Math.round(v)); }
+    charts.roi = new Chart(document.getElementById('roiChart'), {
+      type:'line',
+      data:{ labels:cum.map((_,i)=>'Y'+i),
+        datasets:[{ data:cum, borderColor: GREEN, backgroundColor:'rgba(0,106,78,.12)', fill:true, tension:.3, borderWidth:3, pointRadius:0 }] },
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, title:{display:true,text:'Breakeven: Year 4.5 • Net ৳74.8L by Year 25',color:text,font:{size:14,weight:'bold'}} },
+        scales:{ y:{ticks:{color:text,callback:x=>'৳'+(x/100000).toFixed(0)+'L'},grid:{color:grid}}, x:{ticks:{color:text,maxTicksLimit:13},grid:{display:false}} } }
+    });
 
-  // Import vs Local split
-  charts.local = new Chart(document.getElementById('localChart'), {
-    type:'doughnut',
-    data:{ labels:['Imported Core Components (61%)','Local Materials & Labor (39%)'],
-      datasets:[{ data:[1013400,635000], backgroundColor:[RED,GREEN], borderWidth:3, borderColor: themeColor('#ffffff','#1f2937') }] },
-    options:{ responsive:true, maintainAspectRatio:false, cutout:'58%',
-      plugins:{ legend:{position:'bottom',labels:{color:text,font:{size:11}}}, tooltip:{callbacks:{label:c=>' ৳'+c.parsed.toLocaleString()}} } }
-  });
+    charts.local = new Chart(document.getElementById('localChart'), {
+      type:'doughnut',
+      data:{ labels:['Imported Core (61%)','Local Materials & Labor (39%)'],
+        datasets:[{ data:[1013400,635000], backgroundColor:[RED,GREEN], borderWidth:3, borderColor: themeColor('#ffffff','#1f2937') }] },
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'58%',
+        plugins:{ legend:{position:'bottom',labels:{color:text,font:{size:11}}}, tooltip:{callbacks:{label:c=>' ৳'+c.parsed.toLocaleString()}} } }
+    });
+  } catch(e){ console.warn('Chart init skipped:', e); }
 }
 
 function updateChartColors(){
@@ -616,19 +645,20 @@ function updateChartColors(){
     if(!ch?.options) return;
     if(ch.options.plugins?.legend?.labels) ch.options.plugins.legend.labels.color = text;
     if(ch.options.plugins?.title) ch.options.plugins.title.color = text;
-    if(ch.options.scales) Object.values(ch.options.scales).forEach(s=>{ if(s.ticks)s.ticks.color=text; if(s.grid)s.grid.color=grid; });
+    if(ch.options.scales) Object.values(ch.options.scales).forEach(s=>{ if(s.ticks) s.ticks.color=text; if(s.grid) s.grid.color=grid; });
     ch.update('none');
   });
 }
 
-/* ── Share Card Generator (Bangladesh theme, 1200×630) ── */
+/* ── Share Card Generator (FIX: letterSpacing feature-guarded) ── */
 function drawShareCard(){
-  const c = document.getElementById('shareCanvas'), ctx = c.getContext('2d');
+  const c = document.getElementById('shareCanvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
   const g = ctx.createLinearGradient(0,0,1200,630);
   g.addColorStop(0,'#006a4e'); g.addColorStop(1,'#00382a');
   ctx.fillStyle = g; ctx.fillRect(0,0,1200,630);
 
-  // Red sun + rays (flag motif)
   ctx.fillStyle = '#f42a41';
   ctx.beginPath(); ctx.arc(970,160,115,0,Math.PI*2); ctx.fill();
   ctx.strokeStyle='#f42a41'; ctx.lineWidth=9; ctx.lineCap='round';
@@ -637,15 +667,16 @@ function drawShareCard(){
     ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
   });
 
-  ctx.fillStyle='#9fd8c3'; ctx.font='500 26px Arial'; ctx.letterSpacing='5px';
+  if('letterSpacing' in ctx) ctx.letterSpacing = '5px';
+  ctx.fillStyle='#9fd8c3'; ctx.font='500 26px Arial';
   ctx.fillText('EXECUTIVE PROPOSAL • BANGLADESH 2026',70,150);
-  ctx.letterSpacing='0px';
+  if('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
   ctx.fillStyle='#ffffff'; ctx.font='bold 60px Arial';
   ctx.fillText('25 kW Solar Rooftop System',70,235);
   ctx.fillStyle='#d6ece3'; ctx.font='27px Arial';
   ctx.fillText('Import Core Components. Assemble Locally. Maintain Easily.',70,290);
 
-  // Stat boxes
   const boxes=[['BDT 16.5 L','Total Investment','rgba(255,255,255,0.12)','#9fd8c3'],
                ['4.5 Years','Payback Period','rgba(255,255,255,0.12)','#9fd8c3'],
                ['34,675 kWh','Clean Energy / Year','rgba(244,42,65,0.92)','#ffe1e5']];
@@ -669,20 +700,28 @@ function downloadShareCard(){
   a.download='solar-25kw-proposal-bangladesh.png';
   a.href=document.getElementById('shareCanvas').toDataURL('image/png');
   a.click();
-  // best-effort: upgrade og:image to generated PNG
   try{ document.getElementById('ogImageMeta').setAttribute('content', a.href); }catch(e){}
 }
 
+/* ── Boot (FIX: fail-safes so content is never hidden/blocked) ── */
 document.addEventListener('DOMContentLoaded', ()=>{
-  lucide.createIcons();
-  AOS.init({ duration:700, once:true, offset:80 });
+  try { if(window.lucide) lucide.createIcons(); } catch(e){}
+  try { if(window.AOS) AOS.init({ duration:700, once:true, offset:80 }); else throw 0; }
+  catch(e){ document.body.classList.add('aos-failed'); }
+  // Safety net: if AOS never initialized within 3s, force all content visible
+  setTimeout(()=>{ if(!window.AOS || !document.querySelector('.aos-animate')) {
+    document.body.classList.add('aos-failed');
+    document.querySelectorAll('[data-aos]').forEach(el=>el.removeAttribute('data-aos'));
+  }}, 3000);
+
   initCharts();
   drawShareCard();
+
   window.addEventListener('scroll', ()=>{
     const s=document.documentElement.scrollTop;
     const h=document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    document.getElementById('progressBar').style.width=(s/h*100)+'%';
-  });
+    document.getElementById('progressBar').style.width=(h>0 ? (s/h*100) : 0)+'%';
+  }, {passive:true});
 });
 </script>
 </body>
